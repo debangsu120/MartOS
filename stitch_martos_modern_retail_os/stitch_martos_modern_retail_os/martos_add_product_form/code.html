@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MartOS - Add Product</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#45483c",
+                        "surface-container-highest": "#f1e0cd",
+                        "surface-container": "#fdebd8",
+                        "tertiary": "#6b4323",
+                        "tertiary-fixed-dim": "#f4bb92",
+                        "on-tertiary-fixed": "#301400",
+                        "on-primary-fixed": "#131f00",
+                        "tertiary-container": "#865a38",
+                        "on-tertiary-fixed-variant": "#653d1e",
+                        "primary": "#3e5219",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d7e5bb",
+                        "on-secondary-fixed-variant": "#3f4b2c",
+                        "secondary-fixed": "#dae8be",
+                        "inverse-on-surface": "#ffeedd",
+                        "primary-container": "#556b2f",
+                        "on-primary-fixed-variant": "#394d14",
+                        "background": "#fff8f4",
+                        "surface-container-low": "#fff1e4",
+                        "inverse-primary": "#b6d088",
+                        "on-tertiary-container": "#ffdac2",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#f7e5d3",
+                        "on-secondary-fixed": "#141f05",
+                        "inverse-surface": "#392f22",
+                        "surface-tint": "#50652a",
+                        "surface": "#fff8f4",
+                        "primary-fixed-dim": "#b6d088",
+                        "primary-fixed": "#d2eca2",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c5c8b8",
+                        "surface-bright": "#fff8f4",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#75796b",
+                        "on-surface": "#231a0f",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#5a6745",
+                        "secondary-fixed-dim": "#becca3",
+                        "on-primary-container": "#d0eba1",
+                        "on-background": "#231a0f",
+                        "secondary": "#566342",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#f1e0cd",
+                        "surface-dim": "#e8d7c5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "bento-gap": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["13px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #fff8f4; /* background */
+        }
+        /* Custom scrollbar for organic feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d7e5bb;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b6d088;
+        }
+        
+        .bento-card {
+            box-shadow: 0px 4px 20px rgba(85, 107, 47, 0.05);
+            transition: all 0.2s ease-in-out;
+        }
+        .bento-card:hover {
+            box-shadow: 0px 8px 30px rgba(85, 107, 47, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .input-float {
+            position: relative;
+        }
+        .input-float input, .input-float textarea, .input-float select {
+            border: 1px solid #c5c8b8; /* outline-variant */
+            background-color: #f1e0cd; /* surface-variant */
+            border-radius: 0.5rem;
+            padding: 1rem 1rem 0.5rem 1rem;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .input-float input:focus, .input-float textarea:focus, .input-float select:focus {
+            outline: none;
+            border-color: #3e5219; /* primary */
+            box-shadow: inset 0 0 0 1px #3e5219;
+            background-color: #ffffff;
+        }
+        .input-float label {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #45483c; /* on-surface-variant */
+            transition: all 0.2s;
+            pointer-events: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+        }
+        .input-float input:focus + label,
+        .input-float input:not(:placeholder-shown) + label,
+        .input-float textarea:focus + label,
+        .input-float textarea:not(:placeholder-shown) + label,
+        .input-float select:focus + label,
+        .input-float select:not([value=""]) + label {
+            top: 0.5rem;
+            font-size: 12px;
+            font-weight: 600;
+            color: #3e5219;
+        }
+        .input-float textarea + label {
+            top: 1.5rem;
+        }
+        .input-float textarea:focus + label,
+        .input-float textarea:not(:placeholder-shown) + label {
+             top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background bg-background h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-surface shadow-sm z-20 flex flex-col p-4 gap-2 border-r border-outline-variant/20 hidden md:flex">
+<!-- Brand -->
+<div class="flex items-center gap-3 px-4 py-6 mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary font-bold text-xl">
+                M
+            </div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">MartOS</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Organic Retail OS</p>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-body-md font-semibold mb-6 hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-2 active:scale-95 duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+            New Sale
+        </button>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-1 flex-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">terminal</span>
+<span class="font-body-md text-body-md">POS Terminal</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">inventory_2</span>
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-semibold" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="font-body-md text-body-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">local_shipping</span>
+<span class="font-body-md text-body-md">Suppliers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">analytics</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">group</span>
+<span class="font-body-md text-body-md">User Management</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors group mt-auto" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 w-full h-full">
+<!-- TopAppBar -->
+<header class="h-16 flex-shrink-0 bg-surface shadow-sm z-10 flex items-center justify-between px-8 w-full border-b border-outline-variant/20 hidden md:flex">
+<!-- Search -->
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-variant border-none rounded-full py-2 pl-10 pr-4 text-on-surface focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-colors font-body-md text-body-md placeholder:text-on-surface-variant/70" placeholder="Search products, SKUs..." type="text"/>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all active:opacity-80">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border-2 border-surface overflow-hidden ml-2 cursor-pointer shadow-sm">
+<img alt="Manager Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAM9ctWuyvi5-pRr78HCbXg8JhP_-a1OEyxeqSyWBCkypqXNukBJRb9IooW23TTcC7vgHVmieYEfRovohsGg9uKaVUbOBBeE7VSrN64u-Qxvc0gBbuTrv4yqdZ0g3o0QesavSqW6sVSQOCYX6yyEcfoua3Md8sJ8ECyBSiLFOMAGj_J1EKOPLtiF-Cwp81sq0s5SWyKToRKaS8bjnjocTN5liaMjXoz5XmUfIg_Hj26FRh8qe-N-paQ4f_rqRJsMhrbCPHN920mqMn"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-background">
+<div class="max-w-[1000px] mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-2">
+<a class="hover:text-primary transition-colors font-body-md text-body-md" href="#">Products</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="font-body-md text-body-md text-on-surface">Add New Product</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Add New Product</h2>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-6 py-2.5 rounded-xl font-body-md font-semibold text-tertiary bg-surface-variant hover:bg-surface-container-high transition-colors">
+                            Cancel
+                        </button>
+<button class="px-6 py-2.5 rounded-xl font-body-md font-semibold text-on-primary bg-primary hover:bg-primary-container transition-colors shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">save</span>
+                            Save Product
+                        </button>
+</div>
+</div>
+<!-- Bento Form Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-bento-gap">
+<!-- Left Column (Wider) -->
+<div class="lg:col-span-2 flex flex-col gap-bento-gap">
+<!-- Basic Info Section -->
+<section class="bg-surface-container-lowest rounded-[20px] p-6 bento-card">
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-6 flex items-center gap-2 border-b border-outline-variant/30 pb-4">
+<span class="material-symbols-outlined text-primary">info</span>
+                                Basic Information
+                            </h3>
+<div class="flex flex-col gap-5">
+<div class="input-float">
+<input id="productName" placeholder=" " type="text"/>
+<label for="productName">Product Name</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div class="input-float">
+<select class="appearance-none" id="category" placeholder=" ">
+<option disabled="" selected="" value=""></option>
+<option value="dairy">Dairy &amp; Alternatives</option>
+<option value="produce">Fresh Produce</option>
+<option value="pantry">Pantry Staples</option>
+<option value="snacks">Snacks &amp; Beverages</option>
+</select>
+<label for="category">Category</label>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+<div class="input-float">
+<select class="appearance-none" id="brand" placeholder=" ">
+<option disabled="" selected="" value=""></option>
+<option value="organic_farms">Organic Farms Co.</option>
+<option value="nature_path">Nature's Path</option>
+<option value="local_harvest">Local Harvest</option>
+<option value="in_house">In-House Brand</option>
+</select>
+<label for="brand">Brand / Origin</label>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<div class="input-float">
+<textarea class="resize-none" id="description" placeholder=" " rows="4"></textarea>
+<label for="description">Product Description</label>
+</div>
+</div>
+</section>
+<!-- Pricing & Inventory Section -->
+<section class="bg-surface-container-lowest rounded-[20px] p-6 bento-card">
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-6 flex items-center gap-2 border-b border-outline-variant/30 pb-4">
+<span class="material-symbols-outlined text-primary">sell</span>
+                                Pricing &amp; Inventory
+                            </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+<div class="input-float">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-semibold mt-1">₹</span>
+<input class="pl-8" id="retailPrice" placeholder=" " type="number"/>
+<label class="ml-4" for="retailPrice">Retail Price</label>
+</div>
+<div class="input-float">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant font-semibold mt-1">₹</span>
+<input class="pl-8" id="costPrice" placeholder=" " type="number"/>
+<label class="ml-4" for="costPrice">Cost Price</label>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<div class="input-float">
+<input id="sku" placeholder=" " type="text"/>
+<label for="sku">SKU Code</label>
+</div>
+<div class="input-float">
+<input id="initialStock" placeholder=" " type="number"/>
+<label for="initialStock">Initial Stock</label>
+</div>
+<div class="input-float">
+<input id="lowStockAlert" placeholder=" " type="number"/>
+<label for="lowStockAlert">Low Stock Alert</label>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Narrower) -->
+<div class="flex flex-col gap-bento-gap">
+<!-- Media Section -->
+<section class="bg-surface-container-lowest rounded-[20px] p-6 bento-card h-fit">
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">image</span>
+                                Product Media
+                            </h3>
+<div class="border-2 border-dashed border-primary/40 rounded-[20px] bg-surface-container-low p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-colors group">
+<div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">cloud_upload</span>
+</div>
+<p class="font-body-md text-body-md font-semibold text-on-surface mb-1">Click or drag image to upload</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant font-normal">PNG, JPG up to 5MB</p>
+</div>
+</section>
+<!-- Logistics & Shelf Mapping Section -->
+<section class="bg-surface-container-lowest rounded-[20px] p-6 bento-card h-fit">
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-6 flex items-center gap-2 border-b border-outline-variant/30 pb-4">
+<span class="material-symbols-outlined text-primary">place</span>
+                                Logistics &amp; Placement
+                            </h3>
+<div class="flex flex-col gap-5">
+<div class="input-float">
+<select class="appearance-none" id="supplier" placeholder=" ">
+<option disabled="" selected="" value=""></option>
+<option value="sup1">Green Valley Distributors</option>
+<option value="sup2">AgriCorp India</option>
+<option value="sup3">Local Artisan Co-op</option>
+</select>
+<label for="supplier">Primary Supplier</label>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+<div class="input-float">
+<input id="shelfLocation" placeholder=" " type="text"/>
+<label for="shelfLocation">Shelf Location (e.g. A-12)</label>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl mt-2">
+<div>
+<p class="font-body-md font-semibold text-on-surface">Perishable Item</p>
+<p class="font-label-sm text-on-surface-variant font-normal text-xs">Requires expiry date tracking</p>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

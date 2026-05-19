@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MartOS - Product Catalog</title>
+<!-- Google Fonts: Plus Jakarta Sans & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#45483c",
+                        "surface-container-highest": "#f1e0cd",
+                        "surface-container": "#fdebd8",
+                        "tertiary": "#6b4323",
+                        "tertiary-fixed-dim": "#f4bb92",
+                        "on-tertiary-fixed": "#301400",
+                        "on-primary-fixed": "#131f00",
+                        "tertiary-container": "#865a38",
+                        "on-tertiary-fixed-variant": "#653d1e",
+                        "primary": "#3e5219",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d7e5bb",
+                        "on-secondary-fixed-variant": "#3f4b2c",
+                        "secondary-fixed": "#dae8be",
+                        "inverse-on-surface": "#ffeedd",
+                        "primary-container": "#556b2f",
+                        "on-primary-fixed-variant": "#394d14",
+                        "background": "#fff8f4",
+                        "surface-container-low": "#fff1e4",
+                        "inverse-primary": "#b6d088",
+                        "on-tertiary-container": "#ffdac2",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#f7e5d3",
+                        "on-secondary-fixed": "#141f05",
+                        "inverse-surface": "#392f22",
+                        "surface-tint": "#50652a",
+                        "surface": "#fff8f4",
+                        "primary-fixed-dim": "#b6d088",
+                        "primary-fixed": "#d2eca2",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c5c8b8",
+                        "surface-bright": "#fff8f4",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#75796b",
+                        "on-surface": "#231a0f",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#5a6745",
+                        "secondary-fixed-dim": "#becca3",
+                        "on-primary-container": "#d0eba1",
+                        "on-background": "#231a0f",
+                        "secondary": "#566342",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#f1e0cd",
+                        "surface-dim": "#e8d7c5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "bento-gap": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["13px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md flex min-h-screen">
+<!-- Shared Component: SideNavBar -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-surface dark:bg-surface-dim shadow-sm flex flex-col p-4 gap-2 z-50">
+<!-- Brand Header -->
+<div class="px-4 py-6 mb-4 flex flex-col">
+<span class="font-headline-md text-headline-md text-primary font-bold">MartOS</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase mt-1">Organic Retail OS</span>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-1 flex-grow">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<!-- POS Terminal -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-body-md text-body-md">POS Terminal</span>
+</a>
+<!-- Inventory -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md">Inventory</span>
+</a>
+<!-- Products (ACTIVE) -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg active:scale-95 duration-150 shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-body-md text-body-md font-semibold">Products</span>
+</a>
+<!-- Suppliers -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-body-md text-body-md">Suppliers</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Reports</span>
+</a>
+<!-- User Management -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md text-body-md">User Management</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors mt-auto" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<!-- CTA -->
+<button class="w-full mt-4 bg-primary text-on-primary font-body-md text-body-md py-3 rounded-lg hover:opacity-90 transition-opacity active:scale-95 duration-150">
+            New Sale
+        </button>
+</nav>
+<!-- Main Content Wrapper (Offsets Sidebar) -->
+<main class="flex-grow ml-64 flex flex-col min-h-screen">
+<!-- Shared Component: TopAppBar -->
+<header class="h-16 fixed top-0 right-0 left-64 bg-surface dark:bg-surface-dim shadow-sm flex items-center justify-between px-8 z-40 transition-all">
+<!-- Search on Left (Intent) -->
+<div class="flex-1 max-w-md">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low text-on-surface rounded-lg border-none focus:ring-2 focus:ring-primary outline-none font-body-md text-body-md transition-all" placeholder="Search product catalog..." type="text"/>
+</div>
+</div>
+<!-- Trailing Icons & Profile -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:bg-surface-container-high p-2 rounded-full transition-all active:opacity-80">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-surface-container-high p-2 rounded-full transition-all active:opacity-80">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant shadow-sm flex items-center justify-center">
+<img alt="Manager Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged female store manager with a warm smile. She is wearing a simple earth-toned blouse, standing in a well-lit, modern retail environment with soft natural lighting. The overall color palette is warm and inviting, consistent with a premium organic brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqYYOn5fUAVibZJSYLgW8bQBQyVsyC9FShE0-q8CYJXvlAd0y0ooo5q4oCd-4hRnW7Tf2sNApyk05RddkItapuxFJWM-zKVnQZX4EFzV6ch7SeXK4bn5hDu_70LWj1kkPI1YzyLQNAVDJbYt4S8PcoiyVquXHzHWKGdwp4EukM00pSPIQ0gW9_xtz-RoPm4hNIQQ85QkoyhTBRn1-LV0-AJKDc1rKs9GQB3lnQdFVL9il_TgWum6SmtqKJjAU5wvgZnta04dswNDMB"/>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="mt-16 p-margin-mobile md:p-margin-desktop w-full max-w-[1440px] mx-auto flex flex-col gap-gutter">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-2">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-1">Product Catalog</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage inventory, pricing, and availability across all categories.</p>
+</div>
+<button class="bg-primary text-on-primary font-body-md text-body-md px-6 py-2.5 rounded-lg hover:opacity-90 transition-opacity active:scale-95 duration-150 flex items-center gap-2 shadow-sm whitespace-nowrap">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                    Add Product
+                </button>
+</div>
+<!-- Filter Bar (Bento-style container) -->
+<div class="bg-surface-container-lowest p-4 rounded-xl shadow-[0px_4px_20px_rgba(85,107,47,0.05)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-surface-variant">
+<!-- Category Pills -->
+<div class="flex flex-wrap items-center gap-2">
+<button class="px-4 py-1.5 rounded-full font-label-sm text-label-sm bg-primary text-on-primary shadow-sm transition-all">All Items</button>
+<button class="px-4 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-variant text-on-surface-variant hover:bg-surface-container-high transition-all">Staples</button>
+<button class="px-4 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-variant text-on-surface-variant hover:bg-surface-container-high transition-all">Snacks</button>
+<button class="px-4 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-variant text-on-surface-variant hover:bg-surface-container-high transition-all">Beverages</button>
+<button class="px-4 py-1.5 rounded-full font-label-sm text-label-sm bg-surface-variant text-on-surface-variant hover:bg-surface-container-high transition-all">Dairy</button>
+</div>
+<!-- Secondary Filters & View Toggle -->
+<div class="flex items-center gap-3 w-full md:w-auto">
+<div class="flex items-center px-3 py-1.5 bg-surface-variant rounded-lg border border-outline-variant/30">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px] mr-2" data-icon="filter_list">filter_list</span>
+<select class="bg-transparent border-none text-on-surface font-body-md text-body-md py-0 pl-0 pr-6 focus:ring-0 cursor-pointer appearance-none outline-none">
+<option>Status: Any</option>
+<option>In Stock</option>
+<option>Low Stock</option>
+<option>Out of Stock</option>
+</select>
+</div>
+<div class="flex bg-surface-variant rounded-lg p-1 border border-outline-variant/30 hidden md:flex">
+<button class="p-1 rounded bg-surface-container-lowest shadow-sm text-primary transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="grid_view">grid_view</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="view_list">view_list</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Grid (Bento Grid) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-bento-gap">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(85,107,47,0.05)] overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0px_8px_24px_rgba(85,107,47,0.1)] transition-all duration-300 border border-surface-variant group">
+<div class="aspect-square relative bg-surface-container-low overflow-hidden">
+<img alt="Organic Whole Wheat Bread" class="w-full h-full object-cover" data-alt="A beautifully lit, top-down studio shot of a loaf of artisanal organic whole wheat bread resting on a rustic wooden board. The lighting is soft and warm, emphasizing the crust's texture and golden-brown color. The background is a clean, neutral cream surface, aligning with a premium organic retail aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhkXOQZttsaAld05NzbRhPdVEEH3_i_EQp7TWpstuJS6hFp7int5irhbl6wxUaUg7hzbzzWdBvfIViWgIaR4ht8vGAR1tGF4TspScHfHPZL6l4t_0T7v4bn0E8fGDIdRlSGcq8bDXSheEoE0TlHedyqqRuNFkDqzQiAyBKY-obG5qHLh4T8s32IXQUxqcjsKKhtBZf-89DmfvsUrAjrocvHs-f929ExYTD5-l8-7nMFhpxC61IgdhKH4xQt853aiP9BsfSgVNgzIJ2"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-[#e8f5e9] text-[#2e7d32] border border-[#c8e6c9] shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4caf50]"></span> In Stock
+                            </span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+<button class="p-1.5 bg-surface-container-lowest/90 backdrop-blur text-on-surface rounded-lg shadow-sm hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1">SKU: BKD-1042</span>
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-2 line-clamp-1">Artisanal Sourdough Loaf</h3>
+<div class="mt-auto flex items-end justify-between">
+<span class="font-headline-md text-headline-md text-primary">₹185</span>
+<span class="font-body-md text-body-md text-on-surface-variant">45 units</span>
+</div>
+</div>
+</div>
+<!-- Product Card 2 (Low Stock) -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(85,107,47,0.05)] overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0px_8px_24px_rgba(85,107,47,0.1)] transition-all duration-300 border border-surface-variant group">
+<div class="aspect-square relative bg-surface-container-low overflow-hidden">
+<img alt="Cold Pressed Olive Oil" class="w-full h-full object-cover" data-alt="A sleek glass bottle of premium cold-pressed extra virgin olive oil against a warm, neutral background. Soft, diffused lighting highlights the golden-green hue of the oil and the minimalist label design. The setting conveys a sense of high-end organic quality and purity, typical of modern artisanal groceries." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkahAtdYMK99RKAXHuVforqNS4V45qL4KK8nW-wguT_n9v383TbNtIpY9B7XZKSjk6DJCZjWd-gtbT_CuhqVEwmewMrzABu67Q4kiAUOomqu2PKLsMgFCIHtst1OZ5Hx6IadDyPMpyoKM_CF-i4q-rAwevBnv--g3ujHD-Zml7t_RTI1ydidev_FO9PsHEDcHSmyo_xsuOSPk2hpxo9H63BthztJJ601EOWiRUNCE4JoBSaE1FU04E8TQvd3a0GhTCN5k8PDq7--vd"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-[#fff3e0] text-[#e65100] border border-[#ffe0b2] shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ff9800]"></span> Low Stock
+                            </span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+<button class="p-1.5 bg-surface-container-lowest/90 backdrop-blur text-on-surface rounded-lg shadow-sm hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1">SKU: OIL-8831</span>
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-2 line-clamp-1">Extra Virgin Olive Oil 500ml</h3>
+<div class="mt-auto flex items-end justify-between">
+<span class="font-headline-md text-headline-md text-primary">₹850</span>
+<span class="font-body-md text-body-md text-error">4 units</span>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(85,107,47,0.05)] overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0px_8px_24px_rgba(85,107,47,0.1)] transition-all duration-300 border border-surface-variant group">
+<div class="aspect-square relative bg-surface-container-low overflow-hidden flex items-center justify-center">
+<img alt="Organic Hass Avocados" class="w-full h-full object-cover" data-alt="Three perfectly ripe, organic Hass avocados arranged elegantly on a soft beige linen cloth. The lighting is bright yet soft, creating gentle shadows that emphasize the pebbly texture of the avocado skin. The composition is clean, fresh, and modern, suited for a premium farm-to-table retail platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzjmWVIRsYa7TkH0aFiPH5lO0Tal_uM-8SABZBxEhWrK3cJzm71TwweSNMPBjnRVjqiod7-RMyBv5jgFxVm46Ys1qtMwIqFpL2N-lb2jckuANoM5QCuBiIddZdDGN80YfccGQG2G5HLC-0np2zTTNhr2wri6hpMbfBEOSYA3Ipg2819dB1eYY3yOXbYLW5qYg-KrE16CBK___SKRY8vlKF4OFYo3Zkcy3R7UBtG8vDSPtYbpn7uaAc8F8swPQNF6q-6uKIebHdZzcj"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-[#e8f5e9] text-[#2e7d32] border border-[#c8e6c9] shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4caf50]"></span> In Stock
+                            </span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+<button class="p-1.5 bg-surface-container-lowest/90 backdrop-blur text-on-surface rounded-lg shadow-sm hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1">SKU: FRT-2099</span>
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-2 line-clamp-1">Organic Hass Avocados (Pack of 3)</h3>
+<div class="mt-auto flex items-end justify-between">
+<span class="font-headline-md text-headline-md text-primary">₹320</span>
+<span class="font-body-md text-body-md text-on-surface-variant">28 units</span>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(85,107,47,0.05)] overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0px_8px_24px_rgba(85,107,47,0.1)] transition-all duration-300 border border-surface-variant group">
+<div class="aspect-square relative bg-surface-container-low overflow-hidden">
+<img alt="Almond Butter" class="w-full h-full object-cover" data-alt="A minimalist glass jar of creamy roasted almond butter sitting on a smooth stone surface. Soft, directional sunlight casts long, gentle shadows, highlighting the rich texture of the nut butter. The aesthetic is clean, warm, and highly curated, fitting for a boutique organic provisions catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL4SS5CLBaTfg6SnGdYaiH6SSLOBz2YUahWF1DkSnHAhOjFgKn15vFisPVK6PwIbDXiUX0IK9AiJSsgNdKFfTBh_pbqTcuNJjIZ2iRY4Q5DBsM2WEkdYoCFU_jY-p1qL2u4dWv9vUeyec8h6pjUW0L0jCCTkcm-F3otwtYGsTGzI9nrmJ-PSuzB2oDNGdLtsCYvN6gxfFwHKXSQhQ_HdrQgUmsbgdlwZ9YYGodn7Oq_x7pZ2TGqVC6g0ANWnwRe8a4_sQ45dCT5buJ"/>
+<div class="absolute top-3 left-3">
+<span class="px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-[#e8f5e9] text-[#2e7d32] border border-[#c8e6c9] shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4caf50]"></span> In Stock
+                            </span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+<button class="p-1.5 bg-surface-container-lowest/90 backdrop-blur text-on-surface rounded-lg shadow-sm hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1">SKU: SPR-5520</span>
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold mb-2 line-clamp-1">Roasted Almond Butter 250g</h3>
+<div class="mt-auto flex items-end justify-between">
+<span class="font-headline-md text-headline-md text-primary">₹450</span>
+<span class="font-body-md text-body-md text-on-surface-variant">12 units</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination (Simple) -->
+<div class="flex justify-center mt-6">
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors disabled:opacity-50">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<span class="font-body-md text-body-md text-on-surface-variant px-4 py-2">Page 1 of 12</span>
+<button class="p-2 rounded-lg text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

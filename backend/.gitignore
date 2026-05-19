@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+dist/
+build/
+
+# Environment files - DO NOT COMMIT
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.local.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Windows reserved names (these are not allowed on Windows)
+nul
+aux
+con
+prn
+
+# Build outputs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Prisma
+prisma/migrations/
+*.db
+*.db-journal
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+*.tgz
+.tmp/
+.cache/

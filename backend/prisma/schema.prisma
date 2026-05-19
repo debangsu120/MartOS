@@ -1,0 +1,494 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+// AUTHENTICATION & USER MANAGEMENT
+// ==========================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  name          String
+  phone         String?
+  avatar        String?
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  roles         UserRole[]
+  stores        UserStore[]
+  sales         Sale[]
+  activities    AuditLog[]
+  purchaseOrders PurchaseOrder[]
+  sessions     Session[]
+
+  @@map("users")
+}
+
+model Role {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  permissions Json      @default("[]")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  users       UserRole[]
+
+  @@map("roles")
+}
+
+model UserRole {
+  userId    String
+  roleId    String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  token        String   @unique
+  refreshToken String   @unique
+  expiresAt    DateTime
+  deviceInfo   String?
+  ipAddress    String?
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// ==========================================
+// MULTI-STORE SUPPORT
+// ==========================================
+
+model Store {
+  id              String    @id @default(uuid())
+  name            String
+  slug            String    @unique
+  logo            String?
+  address         String?
+  phone           String?
+  email           String?
+  gstNumber       String?
+  taxNumber       String?
+  isActive        Boolean   @default(true)
+  timezone        String    @default("Asia/Kolkata")
+  currency        String    @default("INR")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  users           UserStore[]
+  categories      Category[]
+  products        Product[]
+  inventory       Inventory[]
+  sales           Sale[]
+  suppliers       Supplier[]
+  purchaseOrders  PurchaseOrder[]
+  settings        StoreSetting[]
+  notifications   Notification[]
+  customers       Customer[]
+  auditLogs       AuditLog[]
+
+  @@map("stores")
+}
+
+model UserStore {
+  userId    String
+  storeId   String
+  isDefault Boolean @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, storeId])
+  @@map("user_stores")
+}
+
+// ==========================================
+// PRODUCTS & CATEGORIES
+// ==========================================
+
+model Category {
+  id          String    @id @default(uuid())
+  storeId     String
+  name        String
+  slug        String
+  description String?
+  parentId    String?
+  image       String?
+  displayOrder Int     @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  parent      Category? @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+  products    Product[]
+
+  @@unique([storeId, slug])
+  @@map("categories")
+}
+
+model Product {
+  id            String    @id @default(uuid())
+  storeId       String
+  categoryId    String?
+  
+  name          String
+  slug          String
+  sku           String    @unique
+  barcode       String?
+  description   String?
+  
+  costPrice     Decimal   @db.Decimal(10, 2)
+  sellingPrice  Decimal   @db.Decimal(10, 2)
+  mrp           Decimal?  @db.Decimal(10, 2)
+  gstRate       Decimal   @default(0) @db.Decimal(5, 2)
+  
+  unit          String    @default("pcs")
+  weight        Decimal?  @db.Decimal(10, 3)
+  
+  isPerishable  Boolean   @default(false)
+  expiryDays    Int?
+  
+  lowStockAlert Int       @default(10)
+  reorderPoint  Int?
+  
+  isActive      Boolean   @default(true)
+  isFeatured    Boolean   @default(false)
+  
+  imageUrl      String?
+  images        Json?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  store         Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  category      Category? @relation(fields: [categoryId], references: [id])
+  inventory     Inventory[]
+  saleItems     SaleItem[]
+  productSupplier ProductSupplier[]
+  purchaseOrderItems PurchaseOrderItem[]
+
+  @@unique([storeId, sku])
+  @@map("products")
+}
+
+model ProductSupplier {
+  id          String   @id @default(uuid())
+  productId   String
+  supplierId  String
+  
+  costPrice   Decimal  @db.Decimal(10, 2)
+  minOrderQty Int?
+  leadTimeDays Int?
+  isPrimary   Boolean  @default(false)
+
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  supplier    Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, supplierId])
+  @@map("product_suppliers")
+}
+
+// ==========================================
+// INVENTORY MANAGEMENT
+// ==========================================
+
+model Inventory {
+  id          String    @id @default(uuid())
+  storeId     String
+  productId   String
+  
+  quantity    Int       @default(0)
+  reservedQty Int       @default(0)
+  
+  rackLocation String?
+  shelfLocation String?
+  
+  batchNumber  String?
+  expiryDate   DateTime?
+  
+  lastRestockedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  logs        InventoryLog[]
+
+  @@unique([storeId, productId])
+  @@map("inventory")
+}
+
+model InventoryLog {
+  id          String    @id @default(uuid())
+  inventoryId String
+  productId   String
+  storeId     String
+  userId      String
+  
+  type        String
+  quantity    Int
+  reference   String?
+  reason      String?
+  notes       String?
+  
+  createdAt   DateTime  @default(now())
+
+  inventory   Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  
+  @@map("inventory_logs")
+}
+
+// ==========================================
+// SALES & POS
+// ==========================================
+
+model Sale {
+  id            String    @id @default(uuid())
+  storeId       String
+  userId        String
+  customerId    String?
+  
+  orderNumber   String    @unique
+  invoiceNumber String?
+  
+  subtotal      Decimal   @db.Decimal(12, 2)
+  discountAmount Decimal  @db.Decimal(12, 2)
+  discountPercent Decimal? @db.Decimal(5, 2)
+  taxAmount     Decimal   @db.Decimal(12, 2)
+  totalAmount   Decimal   @db.Decimal(12, 2)
+  
+  paymentMethod String
+  paymentStatus String    @default("completed")
+  paymentRef    String?
+  
+  status        String    @default("completed")
+  
+  notes         String?
+  
+  createdAt     DateTime  @default(now())
+  completedAt   DateTime?
+
+  store         Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id])
+  customer      Customer? @relation(fields: [customerId], references: [id])
+  items         SaleItem[]
+  
+  @@index([storeId, createdAt])
+  @@index([userId, createdAt])
+  @@map("sales")
+}
+
+model SaleItem {
+  id          String   @id @default(uuid())
+  saleId      String
+  productId   String
+  
+  quantity    Int
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  costPrice   Decimal  @db.Decimal(10, 2) @default(0)
+  discountPercent Decimal? @db.Decimal(5, 2)
+  discountAmount Decimal @db.Decimal(10, 2) @default(0)
+  taxPercent  Decimal  @db.Decimal(5, 2) @default(0)
+  taxAmount   Decimal  @db.Decimal(10, 2) @default(0)
+  totalAmount Decimal  @db.Decimal(12, 2)
+  
+  createdAt   DateTime @default(now())
+
+  sale        Sale     @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id])
+
+  @@map("sale_items")
+}
+
+model Customer {
+  id          String    @id @default(uuid())
+  storeId     String
+  
+  name        String
+  email       String?
+  phone       String?
+  
+  totalOrders Int       @default(0)
+  totalSpent Decimal   @default(0) @db.Decimal(12, 2)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  sales       Sale[]
+
+  @@unique([storeId, phone])
+  @@map("customers")
+}
+
+// ==========================================
+// SUPPLIERS & PURCHASE ORDERS
+// ==========================================
+
+model Supplier {
+  id            String    @id @default(uuid())
+  storeId       String
+  
+  name          String
+  contactPerson String?
+  email         String?
+  phone         String?
+  address       String?
+  gstNumber     String?
+  
+  paymentTerms  String?
+  notes         String?
+  
+  isActive      Boolean   @default(true)
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  store         Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  products      ProductSupplier[]
+  purchaseOrders PurchaseOrder[]
+  
+  @@map("suppliers")
+}
+
+model PurchaseOrder {
+  id              String    @id @default(uuid())
+  storeId         String
+  supplierId     String
+  userId          String
+  
+  orderNumber    String    @unique
+  status          String    @default("draft")
+  
+  expectedDate   DateTime?
+  receivedDate   DateTime?
+  
+  itemsTotal     Decimal   @db.Decimal(12, 2) @default(0)
+  taxAmount      Decimal   @db.Decimal(12, 2) @default(0)
+  discountAmount Decimal   @db.Decimal(12, 2) @default(0)
+  totalAmount    Decimal   @db.Decimal(12, 2) @default(0)
+  
+  notes           String?
+  
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  store          Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  supplier       Supplier       @relation(fields: [supplierId], references: [id])
+  user           User           @relation(fields: [userId], references: [id])
+  items          PurchaseOrderItem[]
+  
+  @@map("purchase_orders")
+}
+
+model PurchaseOrderItem {
+  id              String   @id @default(uuid())
+  purchaseOrderId String
+  productId       String
+  
+  quantity        Int
+  receivedQty     Int      @default(0)
+  unitPrice       Decimal  @db.Decimal(10, 2)
+  taxPercent     Decimal  @db.Decimal(5, 2) @default(0)
+  totalAmount    Decimal  @db.Decimal(12, 2)
+  
+  createdAt       DateTime @default(now())
+
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id], onDelete: Cascade)
+  product         Product        @relation(fields: [productId], references: [id])
+
+  @@map("purchase_order_items")
+}
+
+// ==========================================
+// NOTIFICATIONS
+// ==========================================
+
+model Notification {
+  id          String    @id @default(uuid())
+  storeId     String
+  userId      String?
+  
+  type        String
+  title       String
+  message     String
+  
+  isRead      Boolean   @default(false)
+  readAt      DateTime?
+  
+  actionUrl   String?
+  actionLabel String?
+  
+  createdAt   DateTime  @default(now())
+
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+// ==========================================
+// SETTINGS
+// ==========================================
+
+model StoreSetting {
+  id        String   @id @default(uuid())
+  storeId   String
+  key       String
+  value     Json
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  @@unique([storeId, key])
+  @@map("store_settings")
+}
+
+// ==========================================
+// AUDIT
+// ==========================================
+
+model AuditLog {
+  id          String    @id @default(uuid())
+  userId      String?
+  storeId     String?
+  
+  action      String
+  entity      String
+  entityId    String
+  
+  changes     Json?
+  metadata    Json?
+  
+  createdAt   DateTime  @default(now())
+
+  user        User?     @relation(fields: [userId], references: [id])
+  store       Store?    @relation(fields: [storeId], references: [id])
+  
+  @@index([userId, createdAt])
+  @@index([storeId, createdAt])
+  @@map("audit_logs")
+}

@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #3e5219;
+  --color-primary-container: #556b2f;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #d0eba1;
+  --color-background: #fff8f4;
+  --color-surface: #fff8f4;
+  --color-surface-container-low: #fff1e4;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container: #fdebd8;
+  --color-surface-variant: #f1e0cd;
+  --color-on-surface: #231a0f;
+  --color-on-surface-variant: #45483c;
+  --color-outline: #75796b;
+  --color-outline-variant: #c5c8b8;
+  --color-secondary-container: #d7e5bb;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-tertiary: #6b4323;
+  --color-tertiary-container: #865a38;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5c8b8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b6d088;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+  direction: ltr;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* Hide scrollbar for category pills */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Input floating label styles */
+.input-float {
+  position: relative;
+}
+
+.input-float input,
+.input-float textarea,
+.input-float select {
+  border: 1px solid #c5c8b8;
+  background-color: #f1e0cd;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem 0.5rem 1rem;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.input-float input:focus,
+.input-float textarea:focus,
+.input-float select:focus {
+  outline: none;
+  border-color: #3e5219;
+  box-shadow: inset 0 0 0 1px #3e5219;
+  background-color: #ffffff;
+}
+
+.input-float label {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #45483c;
+  transition: all 0.2s;
+  pointer-events: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+.input-float input:focus + label,
+.input-float input:not(:placeholder-shown) + label,
+.input-float textarea:focus + label,
+.input-float textarea:not(:placeholder-shown) + label,
+.input-float select:focus + label,
+.input-float select:not([value=""]) + label {
+  top: 0.5rem;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3e5219;
+}
+
+.input-float textarea + label {
+  top: 1.5rem;
+}
+
+.input-float textarea:focus + label,
+.input-float textarea:not(:placeholder-shown) + label {
+  top: 0.5rem;
+}
+
+/* Glass panel for login page */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Soft shadow */
+.soft-shadow {
+  box-shadow: 0px 4px 20px rgba(85, 107, 47, 0.05);
+}
+
+/* Hover lift animation */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 8px 30px rgba(85, 107, 47, 0.1);
+}
+
+/* Custom select arrow */
+select.appearance-none {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Stagger animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }

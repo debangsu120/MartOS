@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MartOS Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed": "#dae8be",
+                      "on-tertiary": "#ffffff",
+                      "primary": "#3e5219",
+                      "surface-bright": "#fff8f4",
+                      "on-secondary-fixed": "#141f05",
+                      "error": "#ba1a1a",
+                      "surface-container-highest": "#f1e0cd",
+                      "outline": "#75796b",
+                      "outline-variant": "#c5c8b8",
+                      "on-primary-container": "#d0eba1",
+                      "primary-fixed": "#d2eca2",
+                      "on-surface-variant": "#45483c",
+                      "background": "#fff8f4",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-container": "#ffdac2",
+                      "inverse-surface": "#392f22",
+                      "primary-fixed-dim": "#b6d088",
+                      "primary-container": "#556b2f",
+                      "on-secondary-fixed-variant": "#3f4b2c",
+                      "on-tertiary-fixed": "#301400",
+                      "surface-variant": "#f1e0cd",
+                      "surface-tint": "#50652a",
+                      "surface": "#fff8f4",
+                      "on-tertiary-fixed-variant": "#653d1e",
+                      "surface-container-low": "#fff1e4",
+                      "secondary-container": "#d7e5bb",
+                      "surface-dim": "#e8d7c5",
+                      "inverse-on-surface": "#ffeedd",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "inverse-primary": "#b6d088",
+                      "on-primary": "#ffffff",
+                      "secondary": "#566342",
+                      "tertiary-fixed-dim": "#f4bb92",
+                      "tertiary-fixed": "#ffdcc5",
+                      "on-background": "#231a0f",
+                      "surface-container-high": "#f7e5d3",
+                      "on-primary-fixed-variant": "#394d14",
+                      "tertiary-container": "#865a38",
+                      "tertiary": "#6b4323",
+                      "surface-container": "#fdebd8",
+                      "on-surface": "#231a0f",
+                      "on-secondary-container": "#5a6745",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed": "#131f00",
+                      "secondary-fixed-dim": "#becca3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "2xl": "1.25rem",
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "container-max": "1440px",
+                      "unit": "8px",
+                      "margin-mobile": "20px",
+                      "bento-gap": "24px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "display-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .soft-shadow {
+            box-shadow: 0px 4px 20px rgba(85, 107, 47, 0.05);
+        }
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 8px 30px rgba(85, 107, 47, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen font-body-md text-on-surface antialiased overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Left Side: Hero / Branding (Hidden on Mobile) -->
+<div class="hidden lg:flex w-1/2 relative bg-gradient-to-br from-primary to-primary-container overflow-hidden items-center justify-center p-12">
+<!-- Abstract Background Elements -->
+<div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="40" id="dotPattern" patternunits="userSpaceOnUse" width="40" x="0" y="0">
+<circle cx="2" cy="2" fill="#ffffff" r="2"></circle>
+</pattern>
+</defs>
+<rect fill="url(#dotPattern)" height="100%" width="100%" x="0" y="0"></rect>
+</svg>
+</div>
+<!-- Decorative Image -->
+<div class="absolute -right-24 -bottom-24 w-[600px] h-[600px] rounded-full overflow-hidden opacity-40 mix-blend-overlay pointer-events-none">
+<img alt="Organic ingredients" class="w-full h-full object-cover" data-alt="A top-down view of premium, artisanal organic snacks and raw ingredients arranged beautifully on a rustic surface. Warm, golden hour lighting highlights the textures of nuts, seeds, and dried fruits. The scene exudes a natural, wholesome, and high-quality aesthetic consistent with a modern organic brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwxOzJbTLNWUUCxBKRIpxPC8upv9aPtYk6pDtUAZzZ0z-v8Y7IMERnvz65wo25mb0wMuDlPLWRnBzydzf4WOwW0-3_nvYzn5Uh-qLnkEJ00F57_WODS87b7VUeqJ3ZXth9FoQv1r7FvqQM61yIUVjnovaz0ZlUx2l4Wq07V2Pu29hchXi_QFxgmTp2xRttcfio9KHJThtwib_TVmhhFl3F5F17ON3ZpRdfBN1sP1unHCBOybUqsceKaDOtC1A24J1h_SwCEXLHD34M"/>
+</div>
+<!-- Hero Content -->
+<div class="relative z-10 max-w-lg text-on-primary">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">storefront</span>
+<h1 class="font-display-lg text-display-lg">MartOS</h1>
+</div>
+<h2 class="font-display-lg text-4xl leading-tight mb-6 font-bold">Smart Retail Management for Modern Marts</h2>
+<p class="font-body-lg text-body-lg opacity-90 mb-12">
+                    Streamline your inventory, manage suppliers, and optimize your POS with our premium, unified retail operating system designed for artisanal and organic brands.
+                </p>
+<!-- Floating Glassmorphism Cards -->
+<div class="space-y-6 relative">
+<div class="glass-panel rounded-2xl p-6 flex items-center gap-4 hover-lift">
+<div class="bg-on-primary/20 p-3 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-weight="fill">inventory_2</span>
+</div>
+<div>
+<h3 class="font-headline-md text-xl mb-1">Real-time Inventory</h3>
+<p class="font-body-md text-sm opacity-80">Track stock levels across all your boutique locations instantly.</p>
+</div>
+</div>
+<div class="glass-panel rounded-2xl p-6 flex items-center gap-4 hover-lift ml-8">
+<div class="bg-on-primary/20 p-3 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-weight="fill">monitoring</span>
+</div>
+<div>
+<h3 class="font-headline-md text-xl mb-1">Predictive Analytics</h3>
+<p class="font-body-md text-sm opacity-80">Forecast demand for your seasonal and artisanal products.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Login Form -->
+<div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-background">
+<!-- Mobile Brand Header -->
+<div class="absolute top-8 left-8 flex lg:hidden items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl" data-weight="fill">storefront</span>
+<span class="font-display-lg-mobile text-xl font-bold">MartOS</span>
+</div>
+<div class="w-full max-w-md bg-surface-container-lowest rounded-[32px] p-8 sm:p-12 soft-shadow border border-surface-container-low">
+<div class="mb-10 text-center">
+<h2 class="font-display-lg text-display-lg-mobile text-on-surface mb-2">Welcome Back</h2>
+<p class="font-body-md text-on-surface-variant">Sign in to manage your retail operations.</p>
+</div>
+<form action="#" class="space-y-6" method="POST">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface mb-2" for="email">Email Address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant/50">mail</span>
+</div>
+<input class="w-full pl-11 pr-4 py-3 bg-surface-container-low border-none rounded-xl text-on-surface font-body-md focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-colors" id="email" name="email" placeholder="manager@boutiquemart.com" required="" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="block font-label-sm text-label-sm text-on-surface" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:text-primary-container transition-colors" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant/50">lock</span>
+</div>
+<input class="w-full pl-11 pr-11 py-3 bg-surface-container-low border-none rounded-xl text-on-surface font-body-md focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-colors" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-4 flex items-center text-on-surface-variant/50 hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center">
+<input class="h-5 w-5 rounded border-surface-variant text-primary focus:ring-primary bg-surface-container-low border-none focus:ring-offset-background" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-3 block font-body-md text-sm text-on-surface-variant" for="remember-me">
+                            Remember me for 30 days
+                        </label>
+</div>
+<button class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-sm font-label-sm text-label-sm text-on-primary bg-primary hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200" type="submit">
+                        Sign In to Dashboard
+                    </button>
+</form>
+<div class="mt-8 pt-8 border-t border-surface-container-low text-center">
+<p class="font-body-md text-sm text-on-surface-variant">
+                        Don't have an account? 
+                        <a class="font-label-sm text-primary hover:text-primary-container ml-1" href="#">Contact Support</a>
+</p>
+</div>
+</div>
+<!-- Footer Text -->
+<div class="absolute bottom-8 text-center w-full lg:w-1/2">
+<p class="font-label-sm text-xs text-on-surface-variant opacity-60">© 2024 MartOS Retail Systems. All rights reserved.</p>
+</div>
+</div>
+</div>
+</body></html>

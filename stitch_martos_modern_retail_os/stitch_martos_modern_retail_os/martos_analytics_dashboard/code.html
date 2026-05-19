@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MartOS Retail Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#394d14",
+                        "tertiary-container": "#865a38",
+                        "primary-fixed": "#d2eca2",
+                        "surface": "#fff8f4",
+                        "outline": "#75796b",
+                        "on-tertiary-container": "#ffdac2",
+                        "surface-variant": "#f1e0cd",
+                        "on-secondary-fixed": "#141f05",
+                        "secondary-fixed": "#dae8be",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-primary-fixed": "#131f00",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c5c8b8",
+                        "surface-dim": "#e8d7c5",
+                        "on-tertiary-fixed-variant": "#653d1e",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#231a0f",
+                        "tertiary-fixed-dim": "#f4bb92",
+                        "surface-container-highest": "#f1e0cd",
+                        "primary": "#3e5219",
+                        "on-secondary-container": "#5a6745",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fff8f4",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#50652a",
+                        "on-tertiary-fixed": "#301400",
+                        "on-primary-container": "#d0eba1",
+                        "primary-container": "#556b2f",
+                        "on-background": "#231a0f",
+                        "inverse-surface": "#392f22",
+                        "tertiary": "#6b4323",
+                        "surface-container": "#fdebd8",
+                        "secondary": "#566342",
+                        "inverse-on-surface": "#ffeedd",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#b6d088",
+                        "surface-container-high": "#f7e5d3",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#45483c",
+                        "secondary-fixed-dim": "#becca3",
+                        "on-secondary-fixed-variant": "#3f4b2c",
+                        "primary-fixed-dim": "#b6d088",
+                        "surface-container-low": "#fff1e4",
+                        "secondary-container": "#d7e5bb",
+                        "on-error": "#ffffff",
+                        "background": "#fff8f4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "bento-gap": "24px",
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "unit": "8px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["13px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    },
+                    boxShadow: {
+                        'soft-ambient': '0px 4px 20px rgba(85, 107, 47, 0.05)',
+                        'hover-lift': '0px 10px 25px rgba(85, 107, 47, 0.1)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar to match the warm aesthetic */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff8f4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e8d7c5; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c5c8b8; 
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex selection:bg-primary selection:text-on-primary">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-low dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 shadow-sm flex flex-col border-r border-outline-variant/20 z-50">
+<div class="p-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined icon-fill">storefront</span>
+</div>
+<div>
+<h1 class="font-display-lg text-headline-md font-bold text-primary dark:text-primary-fixed leading-none">MartOS</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Premium Retail</p>
+</div>
+</div>
+<div class="px-4 py-2">
+<button class="w-full bg-primary text-on-primary rounded-2xl py-3 px-4 font-label-sm text-label-sm flex items-center justify-center gap-2 hover:bg-surface-tint transition-colors shadow-soft-ambient">
+<span class="material-symbols-outlined">add</span>
+                New Sale
+            </button>
+</div>
+<nav class="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+<a class="text-on-primary bg-primary dark:bg-primary-container dark:text-on-primary-container rounded-lg font-semibold mx-2 my-1 px-4 py-3 flex items-center gap-3 hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200 scale-95 active:scale-100 transition-transform" href="#">
+<span class="material-symbols-outlined icon-fill">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">point_of_sale</span>
+                POS Terminal
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Inventory
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">inventory</span>
+                Products
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">conveyor_belt</span>
+                Suppliers
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+                Reports
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+                User Management
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-3 flex items-center gap-3 rounded-lg hover:bg-surface-variant dark:hover:bg-surface-container-highest transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="px-2 py-4 border-t border-outline-variant/20 space-y-1">
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-2 flex items-center gap-3 rounded-lg hover:bg-surface-variant transition-colors duration-200 font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">help</span>
+                Support
+            </a>
+<a class="text-on-surface-variant hover:text-on-surface mx-2 my-1 px-4 py-2 flex items-center gap-3 rounded-lg hover:bg-surface-variant transition-colors duration-200 font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-background docked full-width top-0 flex justify-between items-center h-20 px-gutter sticky top-0 z-40">
+<div class="flex items-center gap-6">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Good morning, Store Manager</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Here's what's happening at your store today.</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-10 pr-4 py-2 rounded-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary text-sm w-64 placeholder:text-outline-variant transition-all" placeholder="Search products, orders..." type="text"/>
+</div>
+<button class="p-2 rounded-full hover:bg-surface-variant text-on-surface-variant hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="flex items-center gap-2 p-1 rounded-full hover:bg-surface-variant transition-colors pr-3 border border-outline-variant/30">
+<img alt="Manager Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChSq7VjFSIvuAp2e2n8GAABj296_ffoyWuaZxPUtzWbWKMoL24JXX99czygTnCc4FDGlTL64SnsQaJd3GkvUmxN6_6fU6C0zU205I05j2a1w8M98uJ1Y4OEIHRcdzwzPkWuhJxB4x-KMjfr-ttbcE_WTn8Fmuxwf9zj4e3XQSu76G16zN4yZpkpAtMuAHDd-jsbqPSTfMFJiWr2Bzj_JA_1HwZZ91vICyU6HTZJyMZMkf58dYJxaYUejanYoW_RXLbTlJQB951m1Ne"/>
+<span class="font-label-sm text-label-sm hidden lg:block">Arjun K.</span>
+<span class="material-symbols-outlined text-sm hidden lg:block">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 p-gutter max-w-container-max mx-auto w-full">
+<!-- Category Pills (Bento Top) -->
+<div class="flex gap-3 mb-8 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-sm text-label-sm whitespace-nowrap shadow-soft-ambient hover:bg-surface-tint transition-colors">Overview</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap hover:bg-surface-variant transition-colors">Live Feed</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap hover:bg-surface-variant transition-colors">Store Analytics</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm whitespace-nowrap hover:bg-surface-variant transition-colors">Inventory Status</button>
+</div>
+<!-- Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-bento">
+<!-- KPI 1: Today's Sales -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-soft-ambient hover:shadow-hover-lift transition-shadow border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-surface-container rounded-xl text-primary-container">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<span class="flex items-center text-primary text-sm font-semibold bg-primary-container/10 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span> +12.5%
+                        </span>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm mb-1">Today's Sales</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">₹45,230</h3>
+</div>
+<!-- KPI 2: Orders -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-soft-ambient hover:shadow-hover-lift transition-shadow border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-surface-container rounded-xl text-tertiary">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+<span class="flex items-center text-primary text-sm font-semibold bg-primary-container/10 px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_up</span> +8.2%
+                        </span>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm mb-1">Orders</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">142</h3>
+</div>
+<!-- KPI 3: Low Stock -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-soft-ambient hover:shadow-hover-lift transition-shadow border border-error-container/50 bg-gradient-to-br from-surface-container-lowest to-error-container/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-error-container rounded-xl text-error">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<button class="text-error text-sm font-semibold hover:underline">View All</button>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm mb-1">Low Stock Items</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">18</h3>
+</div>
+<!-- KPI 4: Profit Margin -->
+<div class="bg-surface-container-lowest rounded-2xl p-6 shadow-soft-ambient hover:shadow-hover-lift transition-shadow border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container rounded-xl text-secondary">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<span class="flex items-center text-outline text-sm font-semibold bg-surface-variant px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[16px] mr-1">trending_flat</span> 0.0%
+                        </span>
+</div>
+<p class="text-on-surface-variant font-body-md text-sm mb-1">Avg Margin</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">24.5%</h3>
+</div>
+<!-- Main Chart Area (2x2 Bento) -->
+<div class="col-span-1 md:col-span-2 xl:col-span-3 bg-surface-container-lowest rounded-2xl p-6 shadow-soft-ambient border border-outline-variant/10 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface text-xl">Revenue Trends</h3>
+<p class="text-on-surface-variant text-sm">Last 7 Days vs Previous</p>
+</div>
+<div class="flex gap-2">
+<select class="bg-surface-container-low border-none rounded-lg text-sm text-on-surface-variant py-2 pl-3 pr-8 focus:ring-1 focus:ring-primary cursor-pointer">
+<option>Weekly</option>
+<option>Monthly</option>
+</select>
+</div>
+</div>
+<!-- Faux Chart Container -->
+<div class="flex-1 relative min-h-[250px] w-full flex items-end justify-between gap-2 pt-10 pb-4 px-2">
+<!-- Y-axis labels -->
+<div class="absolute left-0 top-0 bottom-8 w-12 flex flex-col justify-between text-xs text-outline-variant text-right pr-2">
+<span>40k</span><span>30k</span><span>20k</span><span>10k</span><span>0</span>
+</div>
+<!-- Horizontal grid lines -->
+<div class="absolute left-12 right-0 top-0 bottom-8 flex flex-col justify-between pointer-events-none">
+<div class="w-full border-t border-outline-variant/20 h-0"></div>
+<div class="w-full border-t border-outline-variant/20 h-0"></div>
+<div class="w-full border-t border-outline-variant/20 h-0"></div>
+<div class="w-full border-t border-outline-variant/20 h-0"></div>
+<div class="w-full border-t border-outline-variant/20 h-0"></div>
+</div>
+<!-- Bars -->
+<div class="w-full flex justify-around items-end h-[200px] ml-12 z-10">
+<div class="w-8 md:w-12 bg-surface-variant rounded-t-md h-[40%] hover:bg-secondary-container transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">16k</div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-outline-variant">Mon</span>
+</div>
+<div class="w-8 md:w-12 bg-surface-variant rounded-t-md h-[65%] hover:bg-secondary-container transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">26k</div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-outline-variant">Tue</span>
+</div>
+<div class="w-8 md:w-12 bg-primary rounded-t-md h-[85%] relative group shadow-[0_0_15px_rgba(85,107,47,0.3)]">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-100">34k</div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-semibold text-primary">Wed</span>
+</div>
+<div class="w-8 md:w-12 bg-surface-variant rounded-t-md h-[55%] hover:bg-secondary-container transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">22k</div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-outline-variant">Thu</span>
+</div>
+<div class="w-8 md:w-12 bg-surface-variant rounded-t-md h-[70%] hover:bg-secondary-container transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">28k</div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-outline-variant">Fri</span>
+</div>
+<div class="w-8 md:w-12 bg-surface-variant rounded-t-md h-[95%] hover:bg-secondary-container transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">38k</div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-outline-variant">Sat</span>
+</div>
+<div class="w-8 md:w-12 bg-surface-variant rounded-t-md h-[50%] hover:bg-secondary-container transition-colors relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">20k</div>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-outline-variant">Sun</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Actions (1x2 Bento) -->
+<div class="col-span-1 bg-surface-container-highest rounded-2xl p-6 shadow-soft-ambient border border-outline-variant/10 flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-on-surface text-lg mb-2">Quick Actions</h3>
+<button class="w-full bg-primary text-on-primary rounded-xl py-4 px-4 flex items-center gap-3 hover:bg-surface-tint transition-all hover:scale-[1.02] shadow-sm">
+<span class="material-symbols-outlined icon-fill bg-white/20 p-2 rounded-lg">shopping_cart</span>
+<div class="text-left flex-1">
+<div class="font-label-sm text-label-sm font-bold">New POS Sale</div>
+<div class="text-xs text-on-primary/80 font-normal">Open terminal</div>
+</div>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="w-full bg-surface-container-lowest text-on-surface rounded-xl py-4 px-4 flex items-center gap-3 hover:bg-surface-container transition-all hover:scale-[1.02] border border-outline-variant/20 shadow-sm">
+<span class="material-symbols-outlined bg-surface-variant text-primary p-2 rounded-lg">inventory_2</span>
+<div class="text-left flex-1">
+<div class="font-label-sm text-label-sm font-bold">Receive Stock</div>
+<div class="text-xs text-on-surface-variant font-normal">Update inventory</div>
+</div>
+</button>
+<button class="w-full bg-surface-container-lowest text-on-surface rounded-xl py-4 px-4 flex items-center gap-3 hover:bg-surface-container transition-all hover:scale-[1.02] border border-outline-variant/20 shadow-sm">
+<span class="material-symbols-outlined bg-surface-variant text-tertiary p-2 rounded-lg">add_circle</span>
+<div class="text-left flex-1">
+<div class="font-label-sm text-label-sm font-bold">Add Product</div>
+<div class="text-xs text-on-surface-variant font-normal">Create new SKU</div>
+</div>
+</button>
+</div>
+<!-- Best Sellers List -->
+<div class="col-span-1 md:col-span-2 xl:col-span-2 bg-surface-container-lowest rounded-2xl p-6 shadow-soft-ambient border border-outline-variant/10">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface text-lg">Top Performers</h3>
+<button class="text-sm text-primary font-semibold hover:underline">View All</button>
+</div>
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-variant overflow-hidden border border-outline-variant/20 flex-shrink-0">
+<div class="w-full h-full bg-gradient-to-br from-secondary-container to-surface-variant flex items-center justify-center text-secondary font-bold text-xs">IMG</div>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-on-surface mb-0.5">Organic Chana Jor</h4>
+<p class="text-xs text-on-surface-variant">SKU: SNK-001 • In Stock: 42</p>
+</div>
+</div>
+<div class="text-right">
+<div class="font-semibold text-sm text-on-surface">₹12,450</div>
+<div class="text-xs text-primary bg-primary-container/20 px-2 py-0.5 rounded inline-block mt-1">124 sold</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-variant overflow-hidden border border-outline-variant/20 flex-shrink-0">
+<div class="w-full h-full bg-gradient-to-br from-secondary-container to-surface-variant flex items-center justify-center text-secondary font-bold text-xs">IMG</div>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-on-surface mb-0.5">Millet Mix 500g</h4>
+<p class="text-xs text-on-surface-variant">SKU: MLT-050 • In Stock: 18</p>
+</div>
+</div>
+<div class="text-right">
+<div class="font-semibold text-sm text-on-surface">₹8,900</div>
+<div class="text-xs text-primary bg-primary-container/20 px-2 py-0.5 rounded inline-block mt-1">89 sold</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between p-3 rounded-xl hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-variant overflow-hidden border border-outline-variant/20 flex-shrink-0">
+<div class="w-full h-full bg-gradient-to-br from-secondary-container to-surface-variant flex items-center justify-center text-secondary font-bold text-xs">IMG</div>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm text-on-surface mb-0.5">Premium Khakhra</h4>
+<p class="text-xs text-on-surface-variant">SKU: BKY-112 • In Stock: 105</p>
+</div>
+</div>
+<div class="text-right">
+<div class="font-semibold text-sm text-on-surface">₹5,200</div>
+<div class="text-xs text-primary bg-primary-container/20 px-2 py-0.5 rounded inline-block mt-1">65 sold</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity / Low Stock -->
+<div class="col-span-1 md:col-span-2 xl:col-span-2 bg-surface-container-lowest rounded-2xl p-6 shadow-soft-ambient border border-outline-variant/10">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-on-surface text-lg">Inventory Alerts</h3>
+<span class="bg-error-container text-error text-xs px-2 py-1 rounded-full font-semibold">Action Required</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/20">
+<th class="pb-3 font-label-sm text-label-sm text-on-surface-variant font-medium">Product</th>
+<th class="pb-3 font-label-sm text-label-sm text-on-surface-variant font-medium">Stock</th>
+<th class="pb-3 font-label-sm text-label-sm text-on-surface-variant font-medium">Status</th>
+<th class="pb-3 font-label-sm text-label-sm text-on-surface-variant font-medium text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+<td class="py-4 text-on-surface font-medium">Roasted Makhana</td>
+<td class="py-4 text-error font-semibold">2 units</td>
+<td class="py-4"><span class="bg-error-container/50 text-error text-[10px] uppercase tracking-wider px-2 py-1 rounded">Critical</span></td>
+<td class="py-4 text-right">
+<button class="text-primary hover:text-surface-tint font-semibold text-sm">Reorder</button>
+</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-low transition-colors">
+<td class="py-4 text-on-surface font-medium">Moong Dal 1kg</td>
+<td class="py-4 text-tertiary font-semibold">8 units</td>
+<td class="py-4"><span class="bg-surface-variant text-on-surface-variant text-[10px] uppercase tracking-wider px-2 py-1 rounded">Low</span></td>
+<td class="py-4 text-right">
+<button class="text-primary hover:text-surface-tint font-semibold text-sm">Reorder</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-4 text-on-surface font-medium">Jaggery Powder</td>
+<td class="py-4 text-tertiary font-semibold">12 units</td>
+<td class="py-4"><span class="bg-surface-variant text-on-surface-variant text-[10px] uppercase tracking-wider px-2 py-1 rounded">Low</span></td>
+<td class="py-4 text-right">
+<button class="text-primary hover:text-surface-tint font-semibold text-sm">Reorder</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-dim full-width py-4 border-t border-outline-variant/30 flat mt-auto">
+<div class="flex justify-between items-center px-gutter max-w-container-max mx-auto w-full">
+<p class="font-label-sm text-label-sm text-on-surface dark:text-on-surface-variant opacity-80">© 2024 MartOS Retail Systems. All rights reserved.</p>
+<div class="flex gap-4">
+<a class="font-label-sm text-label-sm text-secondary dark:text-secondary-fixed opacity-80 hover:opacity-100 hover:underline transition-all" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-secondary dark:text-secondary-fixed opacity-80 hover:opacity-100 hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-secondary dark:text-secondary-fixed opacity-80 hover:opacity-100 hover:underline transition-all" href="#">Help Center</a>
+<a class="font-label-sm text-label-sm text-secondary dark:text-secondary-fixed opacity-80 hover:opacity-100 hover:underline transition-all" href="#">API Status</a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

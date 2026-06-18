@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Patch, Delete, Param, Query, Body, UseGuards, Request } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @Controller('products')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -40,34 +42,40 @@ export class ProductsController {
   }
 
   @Post()
+  @Roles('manager', 'owner')
   async create(@Request() req, @Body() body: any) {
     const storeId = req.user.stores[0]?.storeId;
     return this.productsService.create(storeId, body);
   }
 
   @Patch(':id')
+  @Roles('manager', 'owner')
   async update(@Param('id') id: string, @Body() body: any) {
     return this.productsService.update(id, body);
   }
 
   @Delete(':id')
+  @Roles('manager', 'owner')
   async delete(@Param('id') id: string) {
     return this.productsService.delete(id);
   }
 
   @Post('categories')
+  @Roles('manager', 'owner')
   async createCategory(@Request() req, @Body() body: any) {
     const storeId = req.user.stores[0]?.storeId;
     return this.productsService.createCategory(storeId, body);
   }
 
   @Patch('categories/:id')
+  @Roles('manager', 'owner')
   async updateCategory(@Request() req, @Param('id') id: string, @Body() body: any) {
     const storeId = req.user.stores[0]?.storeId;
     return this.productsService.updateCategory(storeId, id, body);
   }
 
   @Delete('categories/:id')
+  @Roles('manager', 'owner')
   async deleteCategory(@Request() req, @Param('id') id: string) {
     const storeId = req.user.stores[0]?.storeId;
     return this.productsService.deleteCategory(storeId, id);

@@ -254,6 +254,10 @@ class ApiClient {
     return this.request<any[]>('/users');
   }
 
+  async getRoles() {
+    return this.request<any[]>('/users/roles');
+  }
+
   async getUser(id: string) {
     return this.request<any>(`/users/${id}`);
   }

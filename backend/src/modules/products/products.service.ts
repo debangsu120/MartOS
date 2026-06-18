@@ -64,17 +64,19 @@ export class ProductsService {
   async create(storeId: string, data: any) {
     const slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     
+    const { rackLocation, shelfLocation, initialStock, ...productData } = data;
+    
     const product = await this.prisma.product.create({
-      data: { ...data, storeId, slug },
+      data: { ...productData, storeId, slug },
     });
 
     await this.prisma.inventory.create({
       data: {
         storeId,
         productId: product.id,
-        quantity: data.initialStock || 0,
-        rackLocation: data.rackLocation || null,
-        shelfLocation: data.shelfLocation || null,
+        quantity: initialStock || 0,
+        rackLocation: rackLocation || null,
+        shelfLocation: shelfLocation || null,
       },
     });
 

@@ -12,17 +12,24 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
     if (!isAuthenticated && !publicPaths.includes(pathname)) {
       router.push('/login');
+    } else if (isAuthenticated && user) {
+      const userRole = user.role || 'cashier';
+      if (userRole === 'cashier' && !pathname.startsWith('/pos')) {
+        router.push('/pos');
+      }
     }
-  }, [isAuthenticated, router, pathname]);
+  }, [isAuthenticated, user, router, pathname]);
 
-  if (!isAuthenticated) {
+  const isCashierRestricted = isAuthenticated && user && user.role === 'cashier' && !pathname.startsWith('/pos');
+
+  if (!isAuthenticated || isCashierRestricted) {
     return null;
   }
 

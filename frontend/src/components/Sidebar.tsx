@@ -24,20 +24,24 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/pos', icon: ShoppingCart, label: 'POS Terminal' },
-  { href: '/inventory', icon: Package, label: 'Inventory' },
-  { href: '/products', icon: ShoppingBag, label: 'Products' },
-  { href: '/suppliers', icon: Truck, label: 'Suppliers' },
-  { href: '/reports', icon: BarChart3, label: 'Reports' },
-  { href: '/users', icon: Users, label: 'User Management' },
-  { href: '/settings', icon: Settings, label: 'Settings' },
+  { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', roles: ['owner', 'manager'] },
+  { href: '/pos', icon: ShoppingCart, label: 'POS Terminal', roles: ['owner', 'manager', 'cashier'] },
+  { href: '/inventory', icon: Package, label: 'Inventory', roles: ['owner', 'manager'] },
+  { href: '/products', icon: ShoppingBag, label: 'Products', roles: ['owner', 'manager'] },
+  { href: '/suppliers', icon: Truck, label: 'Suppliers', roles: ['owner', 'manager'] },
+  { href: '/reports', icon: BarChart3, label: 'Reports', roles: ['owner', 'manager'] },
+  { href: '/users', icon: Users, label: 'User Management', roles: ['owner', 'manager'] },
+  { href: '/settings', icon: Settings, label: 'Settings', roles: ['owner', 'manager'] },
 ];
 
 export function Sidebar({ className, isPOS }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const logout = useAuthStore((state) => state.logout);
+  const user = useAuthStore((state) => state.user);
+  const userRole = user?.role || 'cashier';
+
+  const filteredNavItems = navItems.filter(item => !item.roles || item.roles.includes(userRole));
 
   const handleLogout = () => {
     logout();
@@ -74,7 +78,7 @@ export function Sidebar({ className, isPOS }: SidebarProps) {
 
       {/* Navigation Links */}
       <div className="flex-1 overflow-y-auto px-2 space-y-1">
-        {navItems.map((item) => {
+        {filteredNavItems.map((item) => {
           const isActive = pathname === item.href || 
             (item.href !== '/dashboard' && pathname.startsWith(item.href));
           return (

@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Patch, Param, Query, Body, UseGuards, Request } from '@nestjs/common';
 import { SalesService } from './sales.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @Controller('sales')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
@@ -56,6 +58,7 @@ export class SalesController {
   }
 
   @Patch(':id/void')
+  @Roles('manager', 'owner')
   async voidSale(@Request() req, @Param('id') id: string, @Body() body: { reason: string }) {
     const storeId = req.user.stores[0]?.storeId;
     const userId = req.user.userId;

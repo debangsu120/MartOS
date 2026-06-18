@@ -11,6 +11,7 @@ export class ReportsService {
 
     const sales = await this.prisma.sale.findMany({
       where: { storeId, status: 'completed', createdAt: { gte: start, lte: end } },
+      include: { items: true },
     });
 
     const totalRevenue = sales.reduce((sum, s) => sum + Number(s.totalAmount), 0);
@@ -25,17 +26,24 @@ export class ReportsService {
     const profit = totalRevenue - totalTax - totalCost;
 
     const products = await this.prisma.product.count({ where: { storeId, isActive: true } });
-    const lowStockProducts = await this.prisma.$queryRaw<{ count: bigint }[]>`
-      SELECT COUNT(*) as count FROM "Inventory" i
-      JOIN "Product" p ON p.id = i."productId"
-      WHERE i."storeId" = ${storeId} AND p."isActive" = true AND i.quantity <= p."lowStockAlert"
-    `;
+    
+    const lowStockResult = await this.prisma.inventory.findMany({
+      where: {
+        storeId,
+        product: { isActive: true },
+      },
+      select: {
+        quantity: true,
+        product: { select: { lowStockAlert: true } },
+      },
+    });
+    const lowStockCount = lowStockResult.filter(inv => inv.quantity <= inv.product.lowStockAlert).length;
 
     return {
       revenue: { total: totalRevenue, tax: totalTax, discount: totalDiscount },
       profit: { amount: profit, margin: totalRevenue > 0 ? (profit / totalRevenue) * 100 : 0 },
       orders: { total: totalOrders, averageValue: averageOrderValue },
-      products: { total: products, lowStock: Number(lowStockProducts[0]?.count || 0) },
+      products: { total: products, lowStock: lowStockCount },
     };
   }
 

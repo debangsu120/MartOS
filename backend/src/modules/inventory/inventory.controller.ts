@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Patch, Param, Query, Body, UseGuards, Request } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @Controller('inventory')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class InventoryController {
   constructor(private readonly inventoryService: InventoryService) {}
 
@@ -43,6 +45,7 @@ export class InventoryController {
   }
 
   @Patch(':productId/adjust')
+  @Roles('manager', 'owner')
   async adjustStock(
     @Request() req,
     @Param('productId') productId: string,

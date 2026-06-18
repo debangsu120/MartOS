@@ -20,7 +20,13 @@ export default function LoginPage() {
     try {
       await login(email, password);
       toast.success('Welcome back!');
-      router.push('/dashboard');
+      
+      const loggedInUser = useAuthStore.getState().user;
+      if (loggedInUser?.role === 'cashier') {
+        router.push('/pos');
+      } else {
+        router.push('/dashboard');
+      }
     } catch (error) {
       toast.error('Invalid credentials');
     }

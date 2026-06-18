@@ -6,6 +6,10 @@ node_modules/
 # Environment files - DO NOT COMMIT
 .env
 .env.local
+.env.development
+.env.production
+.env.staging
+.env.test
 .env.*.local
 !.env.example
 !.env.local.example
@@ -25,6 +29,20 @@ out/
 # OS
 .DS_Store
 Thumbs.db
+
+# Windows reserved names (do not belong in repos)
+nul
+aux
+con
+prn
+
+# Prisma
+prisma/migrations/
+*.db
+*.db-journal
+
+# TypeScript
+*.tsbuildinfo
 
 # Logs
 *.log

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Search, Bell, User, Settings, HelpCircle, AlertTriangle, X, Package } from 'lucide-react';
 import { currentUser } from '@/lib/data';
+import { useAuthStore } from '@/store';
 import { api } from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
 
@@ -25,9 +26,9 @@ interface LowStockItem {
 }
 
 const navLinks = [
-  { href: '/dashboard', label: 'Overview' },
-  { href: '/dashboard/live-feed', label: 'Live Feed' },
-  { href: '/dashboard/analytics', label: 'Store Analytics' },
+  { href: '/dashboard', label: 'Overview', roles: ['owner', 'manager'] },
+  { href: '/dashboard/live-feed', label: 'Live Feed', roles: ['owner', 'manager'] },
+  { href: '/dashboard/analytics', label: 'Store Analytics', roles: ['owner', 'manager'] },
 ];
 
 export function Header({ 
@@ -42,6 +43,14 @@ export function Header({
   const [showNotifications, setShowNotifications] = useState(false);
   const [lowStockItems, setLowStockItems] = useState<LowStockItem[]>([]);
   const [loadingAlerts, setLoadingAlerts] = useState(false);
+
+  const user = useAuthStore((state) => state.user);
+  const userRole = user?.role || 'cashier';
+
+  const filteredNavLinks = navLinks.filter(link => !link.roles || link.roles.includes(userRole));
+
+  const displayName = user?.name || currentUser.name;
+  const displayAvatar = user?.avatar || currentUser.avatar;
 
   useEffect(() => {
     if (showNotifications) {
@@ -66,9 +75,9 @@ export function Header({
   return (
     <header className="h-20 flex items-center justify-between px-6 border-b border-[#c5c8b8]/10 bg-[#fff8f4] sticky top-0 z-40">
       <div className="flex items-center gap-8 flex-1">
-        {showNav && (
+        {showNav && filteredNavLinks.length > 0 && (
           <nav className="hidden md:flex gap-6">
-            {navLinks.map((link) => {
+            {filteredNavLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <a
@@ -198,21 +207,26 @@ export function Header({
 
         <div className="flex items-center gap-2 pl-4 border-l border-[#c5c8b8]/30">
           <div className="w-8 h-8 rounded-full bg-[#f1e0cd] overflow-hidden border border-[#c5c8b8]/30">
-            {currentUser.avatar ? (
+            {displayAvatar ? (
               <img 
-                src={currentUser.avatar} 
-                alt={currentUser.name} 
+                src={displayAvatar} 
+                alt={displayName} 
                 className="w-full h-full object-cover"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-[#556b2f] text-white text-xs font-medium">
-                {currentUser.name.charAt(0)}
+                {displayName.charAt(0)}
               </div>
             )}
           </div>
-          <span className="text-sm font-medium text-[#231a0f] hidden lg:block">
-            {currentUser.name}
-          </span>
+          <div className="hidden lg:flex flex-col items-start leading-tight">
+            <span className="text-sm font-medium text-[#231a0f]">
+              {displayName}
+            </span>
+            <span className="text-[10px] text-[#75796b] font-semibold capitalize tracking-wide">
+              {userRole}
+            </span>
+          </div>
         </div>
       </div>
 
